@@ -38,6 +38,8 @@ df -h
 echo "###################################  start docker  #############################"
 systemctl start docker
 echo "###################################  run docker  #############################"
+docker stop teamcity_server
+docker remove teamcity_server
 # docker logs "container name"
 # chown -R 1000:1000 /newvolume
 docker run --name teamcity_server -v /newvolume:/data/teamcity_server/datadir -v /newvolume:/opt/teamcity/logs -p 8111:8111 -d jetbrains/teamcity-server
