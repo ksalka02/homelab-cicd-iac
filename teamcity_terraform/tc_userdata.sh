@@ -38,6 +38,7 @@ df -h
 echo "###################################  start docker  #############################"
 systemctl start docker
 echo "###################################  run docker  #############################"
+# delete server container cz it stops
 docker stop teamcity_server
 docker remove teamcity_server
 # docker logs "container name"
