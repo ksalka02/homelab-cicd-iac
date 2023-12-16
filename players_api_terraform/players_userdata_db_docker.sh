@@ -55,7 +55,8 @@ echo "###################################  RUN docker  #########################
 # docker run --name playerapicontainer -p $${ENV}:5000 players-api
 # docker run --name playerapicontainer -p $port:5000 players-api
 export PORT="${port}"
-docker run --name playerapicontainer -e PORT -p ${port}:5000 939365853055.dkr.ecr.us-east-1.amazonaws.com/players-api
+docker run --name playerapicontainer -e PORT -p 5000:${port} 939365853055.dkr.ecr.us-east-1.amazonaws.com/players-api
+# docker run --name playerapicontainer -e PORT -p ${port}:5000 939365853055.dkr.ecr.us-east-1.amazonaws.com/players-api
 # "$${instance_ip}:8111"
 
 docker ps
