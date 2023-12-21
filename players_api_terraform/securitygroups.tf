@@ -22,12 +22,12 @@ resource "aws_security_group" "players_api5" {
   }
 
   ingress {
-    description     = "custom"
-    from_port       = 5000
-    to_port         = 5000
-    protocol        = "tcp"
-    security_groups = [aws_security_group.lb_sg.id]
-    # cidr_blocks = ["0.0.0.0/0"]
+    description = "custom"
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    # security_groups = [aws_security_group.lb_sg.id]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -63,12 +63,12 @@ resource "aws_security_group" "players_api3" {
   }
 
   ingress {
-    description     = "custom"
-    from_port       = 3000
-    to_port         = 3000
-    protocol        = "tcp"
-    security_groups = [aws_security_group.lb_sg.id]
-    # cidr_blocks = ["0.0.0.0/0"]
+    description = "custom"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    # security_groups = [aws_security_group.lb_sg.id]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
