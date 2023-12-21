@@ -17,23 +17,6 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="userdata.txt"
 #!/bin/bash
-
-# yum -y update
-# echo "###################################  install git  #############################"
-# yum -y install git
-# echo "###################################  install pip  #############################"
-# yum -y install python3-pip
-# echo "###################################  clone repo  #############################"
-# git clone https://github.com/ksalka02/api001.git
-# echo "###################################  UPDATE repo  #############################"
-# git pull
-
-# cd api001/mongo
-
-# echo "###################################  install requirements  #############################"
-# pip install -r requirements.txt
-# echo "###################################  run playersdb.py  #############################"
-
 yum -y update
 
 echo "###################################  install docker  #############################"
@@ -48,15 +31,9 @@ docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 93936585
 echo "###################################  PULL docker image  #############################"
 docker pull 939365853055.dkr.ecr.us-east-1.amazonaws.com/players-api:latest
 
-# export PORT="${port}"
 
 echo "###################################  RUN docker  #############################"
-# docker run --name playerapicontainer -p 5000:5000 players-api
-# docker run --name playerapicontainer -p $${ENV}:5000 players-api
-# docker run --name playerapicontainer -p $port:5000 players-api
 export PORT="${port}"
-docker run --name playerapicontainer -e PORT -p 5000:${port} 939365853055.dkr.ecr.us-east-1.amazonaws.com/players-api
-# docker run --name playerapicontainer -e PORT -p ${port}:5000 939365853055.dkr.ecr.us-east-1.amazonaws.com/players-api
-# "$${instance_ip}:8111"
+docker run --name playersapicontainer -e PORT -p ${port}:${port} 939365853055.dkr.ecr.us-east-1.amazonaws.com/players-api
 
 docker ps
