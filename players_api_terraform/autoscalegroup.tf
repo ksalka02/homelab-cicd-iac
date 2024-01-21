@@ -83,6 +83,11 @@ resource "aws_autoscaling_group" "asg_api3" {
     id      = aws_launch_template.players_instance3.id
     version = "$Latest"
   }
+  tag {
+    key                 = "Name"
+    value               = "players-api"
+    propagate_at_launch = true
+  }
 }
 
 resource "aws_autoscaling_attachment" "lb_asg3" {
