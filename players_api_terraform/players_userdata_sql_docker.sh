@@ -34,6 +34,6 @@ docker pull 939365853055.dkr.ecr.us-east-1.amazonaws.com/players-api-sql:latest
 
 echo "###################################  RUN docker  #############################"
 export PORT="${port}"
-docker run --name playersapicontainer -e PORT -p ${port}:${port} 939365853055.dkr.ecr.us-east-1.amazonaws.com/players-api
+docker run --name playersapicontainer -e PORT -p ${port}:${port} 939365853055.dkr.ecr.us-east-1.amazonaws.com/players-api-sql
 
 docker ps
