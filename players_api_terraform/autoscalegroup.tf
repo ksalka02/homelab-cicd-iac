@@ -43,6 +43,11 @@ resource "aws_autoscaling_group" "asg_api5" {
     id      = aws_launch_template.players_instance5.id
     version = "$Latest"
   }
+  tag {
+    key                 = "Name"
+    value               = "players-api-5"
+    propagate_at_launch = true
+  }
 }
 
 resource "aws_autoscaling_attachment" "lb_asg5" {
@@ -85,7 +90,7 @@ resource "aws_autoscaling_group" "asg_api3" {
   }
   tag {
     key                 = "Name"
-    value               = "players-api"
+    value               = "players-api-3"
     propagate_at_launch = true
   }
 }
