@@ -1,0 +1,7 @@
+__pycache__
+.vscode
+.terraform*
+terraform.tfstate*
+.env*
+.DS_Store
+virtual_env
