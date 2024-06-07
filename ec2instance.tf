@@ -13,26 +13,32 @@ resource "aws_instance" "teamcity" {
       ebs_path = local.ebs_path
   })
   tags = {
-    Name = "TCtest"
+    Name = "TeamCity"
   }
   root_block_device {
     volume_size = 16
   }
 }
 
-resource "aws_ebs_volume" "docker_tc" {
-  availability_zone = "us-east-1a"
-  type              = "gp3"
-  size              = 16
-}
+# resource "aws_ebs_volume" "docker_tc" {
+#   availability_zone = "us-east-1a"
+#   type              = "gp3"
+#   size              = 16
+# }
+# resource "aws_volume_attachment" "ebs_att" {
+#   device_name = local.ebs_path
+#   volume_id   = aws_ebs_volume.docker_tc.id
+#   instance_id = aws_instance.teamcity.id
+# }
+
 resource "aws_volume_attachment" "ebs_att" {
   device_name = local.ebs_path
-  volume_id   = aws_ebs_volume.docker_tc.id
+  volume_id   = "vol-028a7f5be055ff969" #ALL TEAM CITY DATA VOLUME
   instance_id = aws_instance.teamcity.id
 }
 
 resource "aws_security_group" "tc_sg" {
-  name = "tcssh"
+  name = "teamcity"
   # description = "api ports"
   # vpc_id      = aws_vpc.main.id
 
