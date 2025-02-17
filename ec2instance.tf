@@ -3,10 +3,13 @@ locals {
 
 }
 resource "aws_instance" "teamcity" {
-  ami                    = "ami-03a6eaae9938c858c"
-  instance_type          = "t2.medium"
-  vpc_security_group_ids = [aws_security_group.tc_sg.id]
-  availability_zone      = "us-east-1a"
+  # ami                    = "ami-03a6eaae9938c858c"
+  ami           = "ami-053a45fff0a704a47"
+  instance_type = "t2.medium"
+  subnet_id     = "subnet-08d16ddb97d32a0ec"
+  # vpc_security_group_ids = [aws_security_group.tc_sg.id]
+  vpc_security_group_ids = ["sg-0270d4f6e39441c46"]
+  availability_zone      = "us-east-1b"
   key_name               = "api_test_key"
   user_data = templatefile("tc_userdata.sh",
     {
@@ -16,52 +19,53 @@ resource "aws_instance" "teamcity" {
     Name = "TeamCity"
   }
   root_block_device {
-    volume_size = 16
+    volume_size = 8
   }
 }
 
-# resource "aws_ebs_volume" "docker_tc" {
-#   availability_zone = "us-east-1a"
-#   type              = "gp3"
-#   size              = 16
-# }
-# resource "aws_volume_attachment" "ebs_att" {
-#   device_name = local.ebs_path
-#   volume_id   = aws_ebs_volume.docker_tc.id
-#   instance_id = aws_instance.teamcity.id
-# }
+resource "aws_ebs_volume" "Teamcity_ebs_volume" {
+  availability_zone = "us-east-1b"
+  type              = "gp3"
+  size              = 16
+  snapshot_id       = "snap-0431051b082adb1be"
 
-resource "aws_volume_attachment" "ebs_att" {
+  tags = {
+    Name = "Volume from Teamcity Snapshot"
+  }
+}
+
+
+resource "aws_volume_attachment" "aws_volume_attachment" {
   device_name = local.ebs_path
-  volume_id   = "vol-028a7f5be055ff969" #ALL TEAM CITY DATA VOLUME
+  volume_id   = aws_ebs_volume.Teamcity_ebs_volume.id
   instance_id = aws_instance.teamcity.id
 }
 
-resource "aws_security_group" "tc_sg" {
-  name = "teamcity"
-  # description = "api ports"
-  # vpc_id      = aws_vpc.main.id
+# resource "aws_security_group" "tc_sg" {
+#   name = "teamcity"
+#   # description = "api ports"
+#   # vpc_id      = aws_vpc.main.id
 
-  ingress {
-    description = "ssh"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     description = "ssh"
+#     from_port   = 22
+#     to_port     = 22
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  ingress {
-    description = "custom"
-    from_port   = 8111
-    to_port     = 8111
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     description = "custom"
+#     from_port   = 8111
+#     to_port     = 8111
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
